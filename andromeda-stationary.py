@@ -37,12 +37,12 @@ cleanAccel = accelerometer*factor
 #Plotting
 num_axes = 4 # we will plot 'num_axes' subplots
 figure, axes = pyplot.subplots(nrows=num_axes, sharex=True)
-figure.suptitle("Accel analysis")
+figure.suptitle("Accel Stationary Analysis")
 index_axe = 0
 
-axes[index_axe].plot(timestamp, accelerometer[:, 0], "tab:red", label="ACCX")
-axes[index_axe].plot(timestamp, accelerometer[:, 1], "tab:green", label="ACCY")
-axes[index_axe].plot(timestamp, accelerometer[:, 2], "tab:blue", label="ACCZ")
+axes[index_axe].plot(timestamp, accelerometer[:, 0], "tab:red", label="RAWACCX")
+axes[index_axe].plot(timestamp, accelerometer[:, 1], "tab:green", label="RAWACCY")
+axes[index_axe].plot(timestamp, accelerometer[:, 2], "tab:blue", label="RAWACCZ")
 axes[index_axe].set_ylabel("Raw Accel")
 axes[index_axe].grid()
 axes[index_axe].legend()
