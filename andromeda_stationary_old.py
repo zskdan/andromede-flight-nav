@@ -11,7 +11,7 @@ sample_rate = 10  # 10 Hz
 margin = int(0.1 * sample_rate)  # 1 s
 
 timestamp = (data[:, 21] - tsstart)/1000
-accelerometer = data[:,7:10] * 60/1000
+accelerometer = data[:,7:10] * 65/1000
 gyroscope = data[:, 10:13] / 3752.873558
 magnetometer = data[:, 13:16] * 0.15
 accel2 = data[:, 16:19] / 1000
@@ -22,9 +22,9 @@ ahrs = imufusion.Ahrs()
 
 ahrs.settings = imufusion.Settings(imufusion.CONVENTION_NWU,  # convention
                                    0.5,  # gain
-                                   10,  # acceleration rejection
-                                   20,  # magnetic rejection
-                                   5 * sample_rate)  # rejection timeout = 5 seconds
+                                   0,  # acceleration rejection
+                                   0,  # magnetic rejection
+                                   50 * sample_rate)  # rejection timeout = 5 seconds
 
 # Process sensor data
 delta_time = numpy.diff(timestamp, prepend=timestamp[0])
@@ -58,6 +58,7 @@ for index in range(len(timestamp)):
                                 ahrs_flags.magnetic_rejection_timeout])
 
     acceleration[index] = 9.81 * ahrs.earth_acceleration  # convert g to m/s/s
+    acceleration[index] = ahrs.linear_acceleration  # convert g to m/s/s
 
 
 ######################################################
@@ -154,7 +155,7 @@ def plot_bool(axis, x, y, label):
 # Plot Euler angles
 #figure, axes = pyplot.subplots(nrows=num_axes, sharex=True, gridspec_kw={"height_ratios": ratios})
 
-num_axes = 2
+num_axes = 3
 figure, axes = pyplot.subplots(nrows=num_axes, sharex=True)
 figure.suptitle("Euler angles, internal states, and flags")
 
