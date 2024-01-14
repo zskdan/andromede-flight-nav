@@ -39,12 +39,16 @@ flightTimestamp=timestamp[startTsIndex:]
 
 absFlightAccel = np.sqrt(np.square(flightAccel[:, 0]) + np.square(flightAccel[:, 1]) + np.square(flightAccel[:, 2]))
 
+#Smoothing
+smoothAbsFlightAccel = savgol_filter(absFlightAccel, 51, 3)
+
 #Plotting
 num_axes = 2 # we will plot 'num_axes' subplots
 figure, axes = pyplot.subplots(nrows=num_axes, sharex=True)
 figure.suptitle("Accel {} Analysis".format(accelName))
 index_axe = 0
 
+axes[index_axe].plot(flightTimestamp, smoothAbsFlightAccel, "tab:blue", label="SMOOTHABSFLIGHTACC")
 axes[index_axe].plot(flightTimestamp, absFlightAccel, "tab:red", label="ABSFLIGHTACC")
 axes[index_axe].set_ylabel("Abs Flight Accel")
 axes[index_axe].grid()
