@@ -6,13 +6,23 @@ import numpy as np
 from scipy import stats
 import sys
 
-#icm20984 on 7,8,9 indexes.
+#icm20984 is on 7,8,9 indexes.
 accelStartIndex = 7
-#icm20600 on 16,17,18 indexes.
-#accelStartIndex = 16
-accelEndIndex = accelStartIndex + 3
+accelName = "icm20984"
+
+try:
+    if sys.argv[1] == "accel2":
+        #icm20600 is on 16,17,18 indexes.
+        accelStartIndex = 16
+        accelName = "icm20600"
+except:
+    pass
+
+print("ANDRONAV: parsing accel {} data (idx:{})"
+      .format(accelName, accelStartIndex))
 
 #Parsing
+accelEndIndex = accelStartIndex + 3
 data = np.genfromtxt("samples/rocket-stationary.csv", delimiter=" ", skip_header=1)
 accelerometer = data[:,accelStartIndex:accelEndIndex]
 timestamp = (data[:, 21])/1000
@@ -43,7 +53,7 @@ cleanAccel = accelerometer*factor
 #Plotting
 num_axes = 4 # we will plot 'num_axes' subplots
 figure, axes = pyplot.subplots(nrows=num_axes, sharex=True)
-figure.suptitle("Accel Stationary Analysis")
+figure.suptitle("{} Accel Stationary Analysis".format(accelName))
 index_axe = 0
 
 axes[index_axe].plot(timestamp, accelerometer[:, 0], "tab:red", label="RAWACCX")
