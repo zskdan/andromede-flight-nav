@@ -6,9 +6,15 @@ import numpy as np
 from scipy import stats
 import sys
 
+#icm20984 on 7,8,9 indexes.
+accelStartIndex = 7
+#icm20600 on 16,17,18 indexes.
+#accelStartIndex = 16
+accelEndIndex = accelStartIndex + 3
+
 #Parsing
 data = np.genfromtxt("samples/rocket-stationary.csv", delimiter=" ", skip_header=1)
-accelerometer = data[:,7:10]
+accelerometer = data[:,accelStartIndex:accelEndIndex]
 timestamp = (data[:, 21])/1000
 
 #Analysis
